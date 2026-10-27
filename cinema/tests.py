@@ -107,6 +107,18 @@ class GenreApiTests(CinemaApiTestCase):
         )
         self.assert_error_format(response, status.HTTP_400_BAD_REQUEST)
 
+    def test_genre_with_movies_cannot_be_deleted(self):
+        response = self.client.delete(f"/api/v1/genres/{self.genre.id}")
+        self.assert_error_format(response, status.HTTP_409_CONFLICT)
+        self.assertIn("фільмів: 1", response.data["error"])
+        self.assertTrue(Genre.objects.filter(id=self.genre.id).exists())
+
+    def test_genre_without_movies_can_be_deleted(self):
+        genre = Genre.objects.create(name="Комедія")
+        response = self.client.delete(f"/api/v1/genres/{genre.id}")
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertFalse(Genre.objects.filter(id=genre.id).exists())
+
 
 class HallApiTests(CinemaApiTestCase):
     def test_hall_with_sessions_cannot_be_deleted(self):

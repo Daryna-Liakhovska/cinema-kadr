@@ -202,6 +202,13 @@ class GenreDetailView(APIView):
 
     def delete(self, request, pk):
         genre = get_object(Genre, pk)
+        movies_count = genre.movies.count()
+        if movies_count:
+            raise ConflictError(
+                f"Неможливо видалити жанр «{genre.name}», оскільки до нього "
+                f"прив'язано фільмів: {movies_count}. Спочатку приберіть цей жанр "
+                f"у фільмів або видаліть їх."
+            )
         genre.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 

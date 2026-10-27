@@ -1,8 +1,11 @@
 {
   "info": {
+    "_postman_id": "f195473b-f47a-4047-9436-4a8ccc24a992",
     "name": "Cinema Kadr API",
     "description": "Колекція запитів до REST API кінотеатру «Кадр». Запускайте папки по черзі: кожен запит створення зберігає id у змінну колекції.",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "59251558",
+    "_collection_link": "https://go.postman.co/collection/59251558-f195473b-f47a-4047-9436-4a8ccc24a992?source=collection_link"
   },
   "item": [
     {
@@ -10,35 +13,6 @@
       "item": [
         {
           "name": "Create genre",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{base_url}}/api/v1/genres",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "genres"
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"name\": \"Фантастика\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
           "event": [
             {
               "listen": "test",
@@ -52,10 +26,53 @@
                 ]
               }
             }
-          ]
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Фантастика\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/genres",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "genres"
+              ]
+            }
+          },
+          "response": []
         },
         {
           "name": "List genres",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "GET",
             "header": [],
@@ -71,6 +88,10 @@
               ]
             }
           },
+          "response": []
+        },
+        {
+          "name": "Update genre",
           "event": [
             {
               "listen": "test",
@@ -83,10 +104,7 @@
                 ]
               }
             }
-          ]
-        },
-        {
-          "name": "Update genre",
+          ],
           "request": {
             "method": "PATCH",
             "header": [
@@ -95,6 +113,15 @@
                 "value": "application/json"
               }
             ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Наукова фантастика\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
             "url": {
               "raw": "{{base_url}}/api/v1/genres/{{genre_id}}",
               "host": [
@@ -106,62 +133,12 @@
                 "genres",
                 "{{genre_id}}"
               ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"name\": \"Наукова фантастика\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
             }
           },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\"Status 200\", function () {",
-                  "    pm.response.to.have.status(200);",
-                  "});"
-                ]
-              }
-            }
-          ]
+          "response": []
         },
         {
           "name": "Error: duplicate genre (400)",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{base_url}}/api/v1/genres",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "genres"
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"name\": \"Наукова фантастика\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
           "event": [
             {
               "listen": "test",
@@ -179,40 +156,40 @@
                 ]
               }
             }
-          ]
-        },
-        {
-          "name": "Error: genre not found (404)",
+          ],
           "request": {
-            "method": "PATCH",
+            "method": "POST",
             "header": [
               {
                 "key": "Content-Type",
                 "value": "application/json"
               }
             ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Наукова фантастика\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
             "url": {
-              "raw": "{{base_url}}/api/v1/genres/99999",
+              "raw": "{{base_url}}/api/v1/genres",
               "host": [
                 "{{base_url}}"
               ],
               "path": [
                 "api",
                 "v1",
-                "genres",
-                "99999"
+                "genres"
               ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"name\": \"Драма\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
             }
           },
+          "response": []
+        },
+        {
+          "name": "Error: genre not found (404)",
           "event": [
             {
               "listen": "test",
@@ -230,7 +207,38 @@
                 ]
               }
             }
-          ]
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Драма\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/genres/99999",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "genres",
+                "99999"
+              ]
+            }
+          },
+          "response": []
         }
       ]
     },
@@ -239,35 +247,6 @@
       "item": [
         {
           "name": "Create director",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{base_url}}/api/v1/directors",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "directors"
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"first_name\": \"Дені\",\n  \"last_name\": \"Вільнев\",\n  \"bio\": \"Канадський кінорежисер і сценарист.\",\n  \"birth_date\": \"1967-10-03\",\n  \"country\": \"Канада\",\n  \"photo_url\": \"https://example.com/d/5.jpg\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
           "event": [
             {
               "listen": "test",
@@ -281,10 +260,53 @@
                 ]
               }
             }
-          ]
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"first_name\": \"Дені\",\n  \"last_name\": \"Вільнев\",\n  \"bio\": \"Канадський кінорежисер і сценарист.\",\n  \"birth_date\": \"1967-10-03\",\n  \"country\": \"Канада\",\n  \"photo_url\": \"https://example.com/d/5.jpg\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/directors",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "directors"
+              ]
+            }
+          },
+          "response": []
         },
         {
           "name": "List directors",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "GET",
             "header": [],
@@ -314,6 +336,10 @@
               ]
             }
           },
+          "response": []
+        },
+        {
+          "name": "Get director",
           "event": [
             {
               "listen": "test",
@@ -326,10 +352,7 @@
                 ]
               }
             }
-          ]
-        },
-        {
-          "name": "Get director",
+          ],
           "request": {
             "method": "GET",
             "header": [],
@@ -346,6 +369,10 @@
               ]
             }
           },
+          "response": []
+        },
+        {
+          "name": "Update director",
           "event": [
             {
               "listen": "test",
@@ -358,10 +385,7 @@
                 ]
               }
             }
-          ]
-        },
-        {
-          "name": "Update director",
+          ],
           "request": {
             "method": "PATCH",
             "header": [
@@ -370,6 +394,15 @@
                 "value": "application/json"
               }
             ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"country\": \"Канада / Франція\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
             "url": {
               "raw": "{{base_url}}/api/v1/directors/{{director_id}}",
               "host": [
@@ -381,62 +414,12 @@
                 "directors",
                 "{{director_id}}"
               ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"country\": \"Канада / Франція\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
             }
           },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\"Status 200\", function () {",
-                  "    pm.response.to.have.status(200);",
-                  "});"
-                ]
-              }
-            }
-          ]
+          "response": []
         },
         {
           "name": "Error: invalid director data (400)",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{base_url}}/api/v1/directors",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "directors"
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"first_name\": \"\",\n  \"birth_date\": \"03.10.1967\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
           "event": [
             {
               "listen": "test",
@@ -454,26 +437,40 @@
                 ]
               }
             }
-          ]
-        },
-        {
-          "name": "Error: director not found (404)",
+          ],
           "request": {
-            "method": "GET",
-            "header": [],
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"first_name\": \"\",\n  \"birth_date\": \"03.10.1967\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
             "url": {
-              "raw": "{{base_url}}/api/v1/directors/99999",
+              "raw": "{{base_url}}/api/v1/directors",
               "host": [
                 "{{base_url}}"
               ],
               "path": [
                 "api",
                 "v1",
-                "directors",
-                "99999"
+                "directors"
               ]
             }
           },
+          "response": []
+        },
+        {
+          "name": "Error: director not found (404)",
           "event": [
             {
               "listen": "test",
@@ -491,7 +488,24 @@
                 ]
               }
             }
-          ]
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/directors/99999",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "directors",
+                "99999"
+              ]
+            }
+          },
+          "response": []
         }
       ]
     },
@@ -500,35 +514,6 @@
       "item": [
         {
           "name": "Create movie",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{base_url}}/api/v1/movies",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "movies"
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"title\": \"Дюна: Частина друга\",\n  \"original_title\": \"Dune: Part Two\",\n  \"description\": \"Пол Атрід об'єднується з фрименами.\",\n  \"director_id\": {{director_id}},\n  \"genre_ids\": [\n    {{genre_id}}\n  ],\n  \"duration_min\": 166,\n  \"release_year\": 2024,\n  \"country\": \"США\",\n  \"age_rating\": \"12+\",\n  \"cast\": \"Тімоті Шаламе, Зендея\",\n  \"poster_url\": \"https://example.com/posters/dune2.jpg\",\n  \"trailer_url\": \"https://youtube.com/watch?v=Way9Dexny3w\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
           "event": [
             {
               "listen": "test",
@@ -542,10 +527,53 @@
                 ]
               }
             }
-          ]
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Дюна: Частина друга\",\n  \"original_title\": \"Dune: Part Two\",\n  \"description\": \"Пол Атрід об'єднується з фрименами.\",\n  \"director_id\": {{director_id}},\n  \"genre_ids\": [\n    {{genre_id}}\n  ],\n  \"duration_min\": 166,\n  \"release_year\": 2024,\n  \"country\": \"США\",\n  \"age_rating\": \"12+\",\n  \"cast\": \"Тімоті Шаламе, Зендея\",\n  \"poster_url\": \"https://example.com/posters/dune2.jpg\",\n  \"trailer_url\": \"https://youtube.com/watch?v=Way9Dexny3w\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/movies",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "movies"
+              ]
+            }
+          },
+          "response": []
         },
         {
           "name": "List movies",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "GET",
             "header": [],
@@ -571,6 +599,10 @@
               ]
             }
           },
+          "response": []
+        },
+        {
+          "name": "List movies with filters",
           "event": [
             {
               "listen": "test",
@@ -583,10 +615,7 @@
                 ]
               }
             }
-          ]
-        },
-        {
-          "name": "List movies with filters",
+          ],
           "request": {
             "method": "GET",
             "header": [],
@@ -620,6 +649,10 @@
               ]
             }
           },
+          "response": []
+        },
+        {
+          "name": "Get movie",
           "event": [
             {
               "listen": "test",
@@ -632,10 +665,7 @@
                 ]
               }
             }
-          ]
-        },
-        {
-          "name": "Get movie",
+          ],
           "request": {
             "method": "GET",
             "header": [],
@@ -652,6 +682,10 @@
               ]
             }
           },
+          "response": []
+        },
+        {
+          "name": "Update movie",
           "event": [
             {
               "listen": "test",
@@ -664,10 +698,7 @@
                 ]
               }
             }
-          ]
-        },
-        {
-          "name": "Update movie",
+          ],
           "request": {
             "method": "PATCH",
             "header": [
@@ -676,6 +707,15 @@
                 "value": "application/json"
               }
             ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"age_rating\": \"16+\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
             "url": {
               "raw": "{{base_url}}/api/v1/movies/{{movie_id}}",
               "host": [
@@ -687,17 +727,12 @@
                 "movies",
                 "{{movie_id}}"
               ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"age_rating\": \"16+\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
             }
           },
+          "response": []
+        },
+        {
+          "name": "Director movies",
           "event": [
             {
               "listen": "test",
@@ -710,10 +745,7 @@
                 ]
               }
             }
-          ]
-        },
-        {
-          "name": "Director movies",
+          ],
           "request": {
             "method": "GET",
             "header": [],
@@ -731,51 +763,10 @@
               ]
             }
           },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\"Status 200\", function () {",
-                  "    pm.response.to.have.status(200);",
-                  "});"
-                ]
-              }
-            }
-          ]
+          "response": []
         },
         {
           "name": "Error: invalid movie data (400)",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{base_url}}/api/v1/movies",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "movies"
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"title\": \"\",\n  \"duration_min\": -5,\n  \"age_rating\": \"21+\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
           "event": [
             {
               "listen": "test",
@@ -793,10 +784,58 @@
                 ]
               }
             }
-          ]
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"\",\n  \"duration_min\": -5,\n  \"age_rating\": \"21+\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/movies",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "movies"
+              ]
+            }
+          },
+          "response": []
         },
         {
           "name": "Error: invalid filter (400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});",
+                  "pm.test(\"Error format\", function () {",
+                  "    const body = pm.response.json();",
+                  "    pm.expect(body).to.have.property(\"error\");",
+                  "    pm.expect(body).to.have.property(\"details\");",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "GET",
             "header": [],
@@ -818,14 +857,18 @@
               ]
             }
           },
+          "response": []
+        },
+        {
+          "name": "Error: movie not found (404)",
           "event": [
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\"Status 400\", function () {",
-                  "    pm.response.to.have.status(400);",
+                  "pm.test(\"Status 404\", function () {",
+                  "    pm.response.to.have.status(404);",
                   "});",
                   "pm.test(\"Error format\", function () {",
                   "    const body = pm.response.json();",
@@ -835,10 +878,7 @@
                 ]
               }
             }
-          ]
-        },
-        {
-          "name": "Error: movie not found (404)",
+          ],
           "request": {
             "method": "GET",
             "header": [],
@@ -855,24 +895,7 @@
               ]
             }
           },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\"Status 404\", function () {",
-                  "    pm.response.to.have.status(404);",
-                  "});",
-                  "pm.test(\"Error format\", function () {",
-                  "    const body = pm.response.json();",
-                  "    pm.expect(body).to.have.property(\"error\");",
-                  "    pm.expect(body).to.have.property(\"details\");",
-                  "});"
-                ]
-              }
-            }
-          ]
+          "response": []
         }
       ]
     },
@@ -881,35 +904,6 @@
       "item": [
         {
           "name": "Create hall",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{base_url}}/api/v1/halls",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "halls"
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"name\": \"Зал 1\",\n  \"rows_count\": 10,\n  \"seats_per_row\": 14\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
           "event": [
             {
               "listen": "test",
@@ -923,119 +917,7 @@
                 ]
               }
             }
-          ]
-        },
-        {
-          "name": "List halls",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{base_url}}/api/v1/halls",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "halls"
-              ]
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\"Status 200\", function () {",
-                  "    pm.response.to.have.status(200);",
-                  "});"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "Get hall",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{base_url}}/api/v1/halls/{{hall_id}}",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "halls",
-                "{{hall_id}}"
-              ]
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\"Status 200\", function () {",
-                  "    pm.response.to.have.status(200);",
-                  "});"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "Update hall",
-          "request": {
-            "method": "PATCH",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{base_url}}/api/v1/halls/{{hall_id}}",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "halls",
-                "{{hall_id}}"
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"seats_per_row\": 12\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\"Status 200\", function () {",
-                  "    pm.response.to.have.status(200);",
-                  "});"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "Error: invalid hall data (400)",
+          ],
           "request": {
             "method": "POST",
             "header": [
@@ -1044,6 +926,15 @@
                 "value": "application/json"
               }
             ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Зал 1\",\n  \"rows_count\": 10,\n  \"seats_per_row\": 14\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
             "url": {
               "raw": "{{base_url}}/api/v1/halls",
               "host": [
@@ -1054,17 +945,124 @@
                 "v1",
                 "halls"
               ]
-            },
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "List halls",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/halls",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "halls"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get hall",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/halls/{{hall_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "halls",
+                "{{hall_id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update hall",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"Зал 2\",\n  \"rows_count\": 0\n}",
+              "raw": "{\n  \"seats_per_row\": 12\n}",
               "options": {
                 "raw": {
                   "language": "json"
                 }
               }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/halls/{{hall_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "halls",
+                "{{hall_id}}"
+              ]
             }
           },
+          "response": []
+        },
+        {
+          "name": "Error: invalid hall data (400)",
           "event": [
             {
               "listen": "test",
@@ -1082,26 +1080,40 @@
                 ]
               }
             }
-          ]
-        },
-        {
-          "name": "Error: hall not found (404)",
+          ],
           "request": {
-            "method": "GET",
-            "header": [],
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Зал 2\",\n  \"rows_count\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
             "url": {
-              "raw": "{{base_url}}/api/v1/halls/99999",
+              "raw": "{{base_url}}/api/v1/halls",
               "host": [
                 "{{base_url}}"
               ],
               "path": [
                 "api",
                 "v1",
-                "halls",
-                "99999"
+                "halls"
               ]
             }
           },
+          "response": []
+        },
+        {
+          "name": "Error: hall not found (404)",
           "event": [
             {
               "listen": "test",
@@ -1119,7 +1131,24 @@
                 ]
               }
             }
-          ]
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/halls/99999",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "halls",
+                "99999"
+              ]
+            }
+          },
+          "response": []
         }
       ]
     },
@@ -1128,35 +1157,6 @@
       "item": [
         {
           "name": "Create session",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{base_url}}/api/v1/sessions",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "sessions"
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"movie_id\": {{movie_id}},\n  \"hall_id\": {{hall_id}},\n  \"start_time\": \"2027-06-01T19:30:00+03:00\",\n  \"price\": 180.0\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
           "event": [
             {
               "listen": "test",
@@ -1170,10 +1170,53 @@
                 ]
               }
             }
-          ]
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"movie_id\": {{movie_id}},\n  \"hall_id\": {{hall_id}},\n  \"start_time\": \"2027-06-01T19:30:00+03:00\",\n  \"price\": 180.0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/sessions",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "sessions"
+              ]
+            }
+          },
+          "response": []
         },
         {
           "name": "List sessions by date",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "GET",
             "header": [],
@@ -1199,6 +1242,10 @@
               ]
             }
           },
+          "response": []
+        },
+        {
+          "name": "Get session",
           "event": [
             {
               "listen": "test",
@@ -1211,10 +1258,7 @@
                 ]
               }
             }
-          ]
-        },
-        {
-          "name": "Get session",
+          ],
           "request": {
             "method": "GET",
             "header": [],
@@ -1231,6 +1275,10 @@
               ]
             }
           },
+          "response": []
+        },
+        {
+          "name": "Update session",
           "event": [
             {
               "listen": "test",
@@ -1243,10 +1291,7 @@
                 ]
               }
             }
-          ]
-        },
-        {
-          "name": "Update session",
+          ],
           "request": {
             "method": "PATCH",
             "header": [
@@ -1255,6 +1300,15 @@
                 "value": "application/json"
               }
             ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"price\": 200.0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
             "url": {
               "raw": "{{base_url}}/api/v1/sessions/{{session_id}}",
               "host": [
@@ -1266,17 +1320,12 @@
                 "sessions",
                 "{{session_id}}"
               ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"price\": 200.0\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
             }
           },
+          "response": []
+        },
+        {
+          "name": "Movie sessions",
           "event": [
             {
               "listen": "test",
@@ -1289,10 +1338,7 @@
                 ]
               }
             }
-          ]
-        },
-        {
-          "name": "Movie sessions",
+          ],
           "request": {
             "method": "GET",
             "header": [],
@@ -1310,51 +1356,10 @@
               ]
             }
           },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\"Status 200\", function () {",
-                  "    pm.response.to.have.status(200);",
-                  "});"
-                ]
-              }
-            }
-          ]
+          "response": []
         },
         {
           "name": "Error: session in the past (400)",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{base_url}}/api/v1/sessions",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "sessions"
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"movie_id\": {{movie_id}},\n  \"hall_id\": {{hall_id}},\n  \"start_time\": \"2020-01-01T19:00:00+02:00\",\n  \"price\": 150.0\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
           "event": [
             {
               "listen": "test",
@@ -1372,10 +1377,7 @@
                 ]
               }
             }
-          ]
-        },
-        {
-          "name": "Error: hall is busy (409)",
+          ],
           "request": {
             "method": "POST",
             "header": [
@@ -1384,6 +1386,15 @@
                 "value": "application/json"
               }
             ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"movie_id\": {{movie_id}},\n  \"hall_id\": {{hall_id}},\n  \"start_time\": \"2020-01-01T19:00:00+02:00\",\n  \"price\": 150.0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
             "url": {
               "raw": "{{base_url}}/api/v1/sessions",
               "host": [
@@ -1394,17 +1405,12 @@
                 "v1",
                 "sessions"
               ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"movie_id\": {{movie_id}},\n  \"hall_id\": {{hall_id}},\n  \"start_time\": \"2027-06-01T20:30:00+03:00\",\n  \"price\": 150.0\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
             }
           },
+          "response": []
+        },
+        {
+          "name": "Error: hall is busy (409)",
           "event": [
             {
               "listen": "test",
@@ -1422,10 +1428,58 @@
                 ]
               }
             }
-          ]
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"movie_id\": {{movie_id}},\n  \"hall_id\": {{hall_id}},\n  \"start_time\": \"2027-06-01T20:30:00+03:00\",\n  \"price\": 150.0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/sessions",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "sessions"
+              ]
+            }
+          },
+          "response": []
         },
         {
           "name": "Error: session not found (404)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 404\", function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});",
+                  "pm.test(\"Error format\", function () {",
+                  "    const body = pm.response.json();",
+                  "    pm.expect(body).to.have.property(\"error\");",
+                  "    pm.expect(body).to.have.property(\"details\");",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "GET",
             "header": [],
@@ -1442,24 +1496,7 @@
               ]
             }
           },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\"Status 404\", function () {",
-                  "    pm.response.to.have.status(404);",
-                  "});",
-                  "pm.test(\"Error format\", function () {",
-                  "    const body = pm.response.json();",
-                  "    pm.expect(body).to.have.property(\"error\");",
-                  "    pm.expect(body).to.have.property(\"details\");",
-                  "});"
-                ]
-              }
-            }
-          ]
+          "response": []
         }
       ]
     },
@@ -1468,6 +1505,24 @@
       "item": [
         {
           "name": "Error: delete director with movies (409)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 409\", function () {",
+                  "    pm.response.to.have.status(409);",
+                  "});",
+                  "pm.test(\"Error format\", function () {",
+                  "    const body = pm.response.json();",
+                  "    pm.expect(body).to.have.property(\"error\");",
+                  "    pm.expect(body).to.have.property(\"details\");",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "DELETE",
             "header": [],
@@ -1484,234 +1539,21 @@
               ]
             }
           },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\"Status 409\", function () {",
-                  "    pm.response.to.have.status(409);",
-                  "});",
-                  "pm.test(\"Error format\", function () {",
-                  "    const body = pm.response.json();",
-                  "    pm.expect(body).to.have.property(\"error\");",
-                  "    pm.expect(body).to.have.property(\"details\");",
-                  "});"
-                ]
-              }
-            }
-          ]
+          "response": []
         },
         {
-          "name": "Error: delete movie with sessions (409)",
-          "request": {
-            "method": "DELETE",
-            "header": [],
-            "url": {
-              "raw": "{{base_url}}/api/v1/movies/{{movie_id}}",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "movies",
-                "{{movie_id}}"
-              ]
-            }
-          },
+          "name": "Error: delete genre with movies (409)",
           "event": [
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\"Status 409\", function () {",
-                  "    pm.response.to.have.status(409);",
-                  "});",
-                  "pm.test(\"Error format\", function () {",
-                  "    const body = pm.response.json();",
-                  "    pm.expect(body).to.have.property(\"error\");",
-                  "    pm.expect(body).to.have.property(\"details\");",
-                  "});"
+                  "pm.test(\"Status 409\", function () {\n    pm.response.to.have.status(409);\n});\npm.test(\"Error format\", function () {\n    const body = pm.response.json();\n    pm.expect(body).to.have.property(\"error\");\n    pm.expect(body).to.have.property(\"details\");\n});"
                 ]
               }
             }
-          ]
-        },
-        {
-          "name": "Error: delete hall with sessions (409)",
-          "request": {
-            "method": "DELETE",
-            "header": [],
-            "url": {
-              "raw": "{{base_url}}/api/v1/halls/{{hall_id}}",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "halls",
-                "{{hall_id}}"
-              ]
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\"Status 409\", function () {",
-                  "    pm.response.to.have.status(409);",
-                  "});",
-                  "pm.test(\"Error format\", function () {",
-                  "    const body = pm.response.json();",
-                  "    pm.expect(body).to.have.property(\"error\");",
-                  "    pm.expect(body).to.have.property(\"details\");",
-                  "});"
-                ]
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Cleanup (delete)",
-      "item": [
-        {
-          "name": "Delete session",
-          "request": {
-            "method": "DELETE",
-            "header": [],
-            "url": {
-              "raw": "{{base_url}}/api/v1/sessions/{{session_id}}",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "sessions",
-                "{{session_id}}"
-              ]
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\"Status 204\", function () {",
-                  "    pm.response.to.have.status(204);",
-                  "});"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "Delete movie",
-          "request": {
-            "method": "DELETE",
-            "header": [],
-            "url": {
-              "raw": "{{base_url}}/api/v1/movies/{{movie_id}}",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "movies",
-                "{{movie_id}}"
-              ]
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\"Status 204\", function () {",
-                  "    pm.response.to.have.status(204);",
-                  "});"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "Delete director",
-          "request": {
-            "method": "DELETE",
-            "header": [],
-            "url": {
-              "raw": "{{base_url}}/api/v1/directors/{{director_id}}",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "directors",
-                "{{director_id}}"
-              ]
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\"Status 204\", function () {",
-                  "    pm.response.to.have.status(204);",
-                  "});"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "Delete hall",
-          "request": {
-            "method": "DELETE",
-            "header": [],
-            "url": {
-              "raw": "{{base_url}}/api/v1/halls/{{hall_id}}",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "halls",
-                "{{hall_id}}"
-              ]
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\"Status 204\", function () {",
-                  "    pm.response.to.have.status(204);",
-                  "});"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "Delete genre",
+          ],
           "request": {
             "method": "DELETE",
             "header": [],
@@ -1728,22 +1570,28 @@
               ]
             }
           },
+          "response": []
+        },
+        {
+          "name": "Error: delete movie with sessions (409)",
           "event": [
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\"Status 204\", function () {",
-                  "    pm.response.to.have.status(204);",
+                  "pm.test(\"Status 409\", function () {",
+                  "    pm.response.to.have.status(409);",
+                  "});",
+                  "pm.test(\"Error format\", function () {",
+                  "    const body = pm.response.json();",
+                  "    pm.expect(body).to.have.property(\"error\");",
+                  "    pm.expect(body).to.have.property(\"details\");",
                   "});"
                 ]
               }
             }
-          ]
-        },
-        {
-          "name": "Error: delete already deleted movie (404)",
+          ],
           "request": {
             "method": "DELETE",
             "header": [],
@@ -1760,6 +1608,218 @@
               ]
             }
           },
+          "response": []
+        },
+        {
+          "name": "Error: delete hall with sessions (409)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 409\", function () {",
+                  "    pm.response.to.have.status(409);",
+                  "});",
+                  "pm.test(\"Error format\", function () {",
+                  "    const body = pm.response.json();",
+                  "    pm.expect(body).to.have.property(\"error\");",
+                  "    pm.expect(body).to.have.property(\"details\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/halls/{{hall_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "halls",
+                "{{hall_id}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Cleanup (delete)",
+      "item": [
+        {
+          "name": "Delete session",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 204\", function () {",
+                  "    pm.response.to.have.status(204);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/sessions/{{session_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "sessions",
+                "{{session_id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete movie",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 204\", function () {",
+                  "    pm.response.to.have.status(204);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/movies/{{movie_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "movies",
+                "{{movie_id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete director",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 204\", function () {",
+                  "    pm.response.to.have.status(204);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/directors/{{director_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "directors",
+                "{{director_id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete hall",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 204\", function () {",
+                  "    pm.response.to.have.status(204);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/halls/{{hall_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "halls",
+                "{{hall_id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete genre",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 204\", function () {",
+                  "    pm.response.to.have.status(204);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/genres/{{genre_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "genres",
+                "{{genre_id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Error: delete already deleted movie (404)",
           "event": [
             {
               "listen": "test",
@@ -1777,7 +1837,24 @@
                 ]
               }
             }
-          ]
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/movies/{{movie_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "movies",
+                "{{movie_id}}"
+              ]
+            }
+          },
+          "response": []
         }
       ]
     }
