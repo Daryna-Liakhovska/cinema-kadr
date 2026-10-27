@@ -111,7 +111,18 @@ python check_submission.py
   "count": 125,
   "next": "http://127.0.0.1:8000/api/v1/movies?page=3",
   "previous": "http://127.0.0.1:8000/api/v1/movies?page=1",
-  "results": [ ... ]
+    "results": [
+    {
+      "id": 12,
+      "title": "Дюна: Частина друга",
+      "poster_url": "https://example.com/posters/dune2.jpg",
+      "release_year": 2024,
+      "duration_min": 166,
+      "age_rating": "12+",
+      "genres": [{ "id": 3, "name": "Фантастика" }],
+      "director": { "id": 5, "first_name": "Дені", "last_name": "Вільнев" }
+    }
+  ]
 }
 ```
 
