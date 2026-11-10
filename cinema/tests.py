@@ -1,5 +1,6 @@
 from datetime import timedelta
 
+from django.contrib.auth.models import User
 from django.utils import timezone
 from rest_framework import status
 from rest_framework.test import APITestCase
@@ -10,6 +11,10 @@ from .models import Director, Genre, Hall, Movie, Session
 class CinemaApiTestCase(APITestCase):
     def setUp(self):
         self.genre = Genre.objects.create(name="Фантастика")
+        self.admin = User.objects.create_user(
+            username="admin", password="AdminPass123", is_staff=True
+        )
+        self.client.force_authenticate(user=self.admin)
         self.director = Director.objects.create(first_name="Дені", last_name="Вільнев")
         self.movie = Movie.objects.create(
             title="Дюна: Частина друга",

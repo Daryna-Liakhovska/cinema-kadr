@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.1/ref/settings/
 """
 
+from datetime import timedelta
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -40,6 +41,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "corsheaders",
     "cinema.apps.CinemaConfig",
+    "accounts.apps.AccountsConfig",
 ]
 
 MIDDLEWARE = [
@@ -61,13 +63,18 @@ CORS_ALLOWED_ORIGINS = [
 
 ROOT_URLCONF = "config.urls"
 
-# Authorization is not implemented yet, so the API is open and does not use
-# session authentication (it would require a CSRF token for every request).
 REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": [],
-    "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.AllowAny"],
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ],
+    "DEFAULT_PERMISSION_CLASSES": ["cinema.permissions.IsAdminOrReadOnly"],
     "EXCEPTION_HANDLER": "cinema.exceptions.api_exception_handler",
     "COERCE_DECIMAL_TO_STRING": False,
+}
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
 }
 
 TEMPLATES = [
