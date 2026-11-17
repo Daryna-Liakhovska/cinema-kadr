@@ -70,13 +70,30 @@
    python -m pip install -r requirements-dev.txt
    ```
 
-3. Застосуйте міграції, щоб створити базу даних SQLite:
+3. Створіть файл `.env` на основі прикладу і впишіть свій секретний ключ:
+
+   ```bash
+   cp .env.example .env
+   python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
+   ```
+
+   Згенерований ключ вставте у `.env` замість `change-me`. Файл `.env` не потрапляє в git.
+
+   | Змінна | Опис |
+   |--------|------|
+   | `SECRET_KEY` | секретний ключ Django |
+   | `DEBUG` | режим налагодження: `True` для розробки, `False` для продакшну |
+   | `ALLOWED_HOSTS` | дозволені хости через кому |
+   | `CORS_ALLOWED_ORIGINS` | адреси фронтенду через кому |
+   | `LOG_LEVEL` | рівень логування (необов'язково, за замовчуванням `INFO`) |
+
+4. Застосуйте міграції, щоб створити базу даних SQLite:
 
    ```bash
    python manage.py migrate
    ```
 
-4. Запустіть сервер:
+5. Запустіть сервер:
 
    ```bash
    python manage.py runserver
