@@ -70,13 +70,30 @@
    python -m pip install -r requirements-dev.txt
    ```
 
-3. Застосуйте міграції, щоб створити базу даних SQLite:
+3. Створіть файл `.env` на основі прикладу і впишіть свій секретний ключ:
+
+   ```bash
+   cp .env.example .env
+   python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
+   ```
+
+   Згенерований ключ вставте у `.env` замість `change-me`. Файл `.env` не потрапляє в git.
+
+   | Змінна | Опис |
+   |--------|------|
+   | `SECRET_KEY` | секретний ключ Django |
+   | `DEBUG` | режим налагодження: `True` для розробки, `False` для продакшну |
+   | `ALLOWED_HOSTS` | дозволені хости через кому |
+   | `CORS_ALLOWED_ORIGINS` | адреси фронтенду через кому |
+   | `LOG_LEVEL` | рівень логування (необов'язково, за замовчуванням `INFO`) |
+
+4. Застосуйте міграції, щоб створити базу даних SQLite:
 
    ```bash
    python manage.py migrate
    ```
 
-4. Запустіть сервер:
+5. Запустіть сервер:
 
    ```bash
    python manage.py runserver
@@ -96,10 +113,29 @@ python manage.py createsuperuser
 
 ### Тести та перевірка коду
 
+Тести написані на pytest. Фікстури (клієнт API, користувачі, фільм, зал, сеанс) лежать у `conftest.py`.
+
 ```bash
-python manage.py test
+pytest
+pytest --cov=cinema --cov=accounts --cov-report=term-missing
 python check_submission.py
 ```
+
+Друга команда показує покриття коду тестами (зараз 92%).
+
+### Документація API
+
+Після запуску сервера документація доступна за адресами:
+
+- Swagger UI: http://127.0.0.1:8000/api/docs/
+- ReDoc: http://127.0.0.1:8000/api/redoc/
+- OpenAPI-схема: http://127.0.0.1:8000/api/schema/
+
+Детально описано ресурс «Сеанси»: параметри, тіло запиту, усі відповіді з прикладами та вимоги до авторизації.
+
+### Логування
+
+Логи пишуться в консоль і у файл `logs/cinema.log` (папка не потрапляє в git). Записуються реєстрація, успішні й невдалі входи, створення, зміна й видалення сеансів, конфлікти розкладу. Паролі й токени в лог не потрапляють.
 
 ### Postman
 

@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/6.1/ref/settings/
 from datetime import timedelta
 from pathlib import Path
 
+from decouple import Csv, config
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -21,10 +23,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-csz#0g_+u88cb1nzqg9v5c@7!6jmj+(d3b(%12ha1a7vx2!otp"
+SECRET_KEY = config("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config("DEBUG", default=False, cast=bool)
 
 ALLOWED_HOSTS = []
 
@@ -40,6 +42,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "corsheaders",
+    "drf_spectacular",
     "cinema.apps.CinemaConfig",
     "accounts.apps.AccountsConfig",
 ]
@@ -56,10 +59,7 @@ MIDDLEWARE = [
 ]
 
 # Allow local frontend development servers without allowing arbitrary origins.
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-]
+CORS_ALLOWED_ORIGINS = config("CORS_ALLOWED_ORIGINS", default="", cast=Csv())
 
 ROOT_URLCONF = "config.urls"
 
@@ -70,11 +70,59 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": ["cinema.permissions.IsAdminOrReadOnly"],
     "EXCEPTION_HANDLER": "cinema.exceptions.api_exception_handler",
     "COERCE_DECIMAL_TO_STRING": False,
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+}
+
+LOGS_DIR = BASE_DIR / "logs"
+LOGS_DIR.mkdir(exist_ok=True)
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "{asctime} {levelname} {name}: {message}",
+            "style": "{",
+        },
+    },
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "verbose",
+        },
+        "file": {
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": LOGS_DIR / "cinema.log",
+            "maxBytes": 1024 * 1024,
+            "backupCount": 3,
+            "encoding": "utf-8",
+            "formatter": "verbose",
+        },
+    },
+    "loggers": {
+        "cinema": {
+            "handlers": ["console", "file"],
+            "level": config("LOG_LEVEL", default="INFO"),
+            "propagate": False,
+        },
+        "accounts": {
+            "handlers": ["console", "file"],
+            "level": config("LOG_LEVEL", default="INFO"),
+            "propagate": False,
+        },
+    },
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Кінотеатр «Кадр» API",
+    "DESCRIPTION": "REST API кінотеатру: фільми, режисери, жанри, зали, сеанси та авторизація через JWT.",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
 }
 
 TEMPLATES = [
