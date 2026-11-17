@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "corsheaders",
+    "drf_spectacular",
     "cinema.apps.CinemaConfig",
     "accounts.apps.AccountsConfig",
 ]
@@ -69,11 +70,19 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": ["cinema.permissions.IsAdminOrReadOnly"],
     "EXCEPTION_HANDLER": "cinema.exceptions.api_exception_handler",
     "COERCE_DECIMAL_TO_STRING": False,
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Кінотеатр «Кадр» API",
+    "DESCRIPTION": "REST API кінотеатру: фільми, режисери, жанри, зали, сеанси та авторизація через JWT.",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
 }
 
 TEMPLATES = [
