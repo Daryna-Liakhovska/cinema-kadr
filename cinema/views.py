@@ -8,6 +8,13 @@ from .exceptions import ConflictError
 from .filters import get_choice_param, get_date_param, get_int_param, search_queryset
 from .models import Director, Genre, Hall, Movie, Session
 from .pagination import StandardPagination
+from .schema import (
+    session_create_schema,
+    session_delete_schema,
+    session_detail_schema,
+    session_list_schema,
+    session_update_schema,
+)
 from .serializers import (
     DirectorListSerializer,
     DirectorSerializer,
@@ -249,6 +256,7 @@ class HallDetailView(APIView):
 
 
 class SessionListView(APIView):
+    @session_list_schema
     def get(self, request):
         show_date = get_date_param(request, "date") or timezone.localdate()
         movie = get_int_param(request, "movie")
@@ -265,6 +273,7 @@ class SessionListView(APIView):
         sessions = sessions.select_related("movie", "hall")
         return paginated_response(request, self, sessions, SessionSerializer)
 
+    @session_create_schema 
     def post(self, request):
         serializer = SessionSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -273,10 +282,12 @@ class SessionListView(APIView):
 
 
 class SessionDetailView(APIView):
+    @session_detail_schema
     def get(self, request, pk):
         session = get_object(Session, pk)
         return Response(SessionSerializer(session).data)
 
+    @session_update_schema
     def patch(self, request, pk):
         session = get_object(Session, pk)
         serializer = SessionSerializer(session, data=request.data, partial=True)
@@ -284,6 +295,7 @@ class SessionDetailView(APIView):
         serializer.save()
         return Response(serializer.data)
 
+    @session_delete_schema
     def delete(self, request, pk):
         session = get_object(Session, pk)
         session.delete()
