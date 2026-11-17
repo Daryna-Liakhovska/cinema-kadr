@@ -74,4 +74,3 @@ def session(movie, hall, start_time):
     return Session.objects.create(
         movie=movie, hall=hall, start_time=start_time, price=180
     )
-    
