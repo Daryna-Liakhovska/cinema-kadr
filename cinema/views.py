@@ -1,3 +1,5 @@
+import logging
+
 from django.utils import timezone
 from rest_framework import status
 from rest_framework.exceptions import NotFound
@@ -25,6 +27,8 @@ from .serializers import (
     MovieSessionSerializer,
     SessionSerializer,
 )
+
+logger = logging.getLogger(__name__)
 
 NOT_FOUND_MESSAGES = {
     Movie: "Фільм з id={pk} не знайдено.",
@@ -273,7 +277,7 @@ class SessionListView(APIView):
         sessions = sessions.select_related("movie", "hall")
         return paginated_response(request, self, sessions, SessionSerializer)
 
-    @session_create_schema 
+    @session_create_schema
     def post(self, request):
         serializer = SessionSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)

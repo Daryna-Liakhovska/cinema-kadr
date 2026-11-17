@@ -1,3 +1,4 @@
+import logging
 from datetime import timedelta
 
 from django.utils import timezone
@@ -5,6 +6,8 @@ from rest_framework import serializers
 
 from .exceptions import ConflictError
 from .models import Director, Genre, Hall, Movie, Session
+
+logger = logging.getLogger(__name__)
 
 
 class GenreSerializer(serializers.ModelSerializer):
@@ -146,6 +149,13 @@ class SessionSerializer(serializers.ModelSerializer):
         for other in others:
             if other.end_time > start:
                 local_start = timezone.localtime(other.start_time)
+                logger.warning(
+                    "Session conflict: hall_id=%s, requested start=%s, "
+                    "overlaps session id=%s",
+                    hall.id,
+                    start.isoformat(),
+                    other.id,
+                )
                 raise ConflictError(
                     f"Зал «{hall.name}» у цей час зайнятий: "
                     f"сеанс «{other.movie.title}» о {local_start:%H:%M} "
